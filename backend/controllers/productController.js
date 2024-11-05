@@ -1,27 +1,11 @@
 const Product = require('../models/Product');
 const cloudinary = require('cloudinary');
+const upload = require('../utils/upload');
 
 exports.create = async (req, res, next) => {
 
     try {
-        console.log(req.body)
-        req.body.images = [];
-
-        const images = req.files;
-
-        for (let i = 0; i < images.length; i++) {
-
-            const data = await cloudinary.v2.uploader.upload(images[i].path);
-
-            req.body.images.push({
-
-                public_id: data.public_id,
-
-                url: data.url,
-
-            })
-
-        };
+        req.body.images = await upload.multiple(req.files);
 
         const product = await Product.create(req.body);
 
@@ -46,22 +30,7 @@ exports.update = async (req, res, next) => {
 
         const images = req.files;
 
-        req.body.images = [];
-
-        for (let i = 0; i < images.length; i++) {
-
-            const data = await cloudinary.v2.uploader.upload(images[i].path);
-
-            console.log(data);
-
-            req.body.images.push({
-
-                public_id: data.public_id,
-                url: data.url,
-
-            })
-
-        };
+        req.body.images = await upload.multiple(req.files);
 
         if (images.length === 0) {
             delete req.body.images
@@ -146,6 +115,30 @@ exports.delete = async (req, res, next) => {
 
         res.json({
             message: "Product deleted successfully!",
+        });
+
+    } catch (error) {
+
+        console.log(error);
+
+        return res.json({
+            message: 'System error occured!',
+            success: false,
+        })
+    }
+}
+
+exports.bulkDelete = async (req, res, next) => {
+    try {
+
+        await Product.deleteMany({
+            _id: {
+                $in: req.body.productIds,
+            }
+        });
+
+        res.json({
+            message: "Products deleted successfully!",
         });
 
     } catch (error) {

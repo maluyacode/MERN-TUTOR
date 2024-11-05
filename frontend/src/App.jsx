@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './App.css'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
@@ -24,6 +24,10 @@ function App() {
       <BrowserRouter>
         <Routes>
 
+          {/* User Routes */}
+
+
+          {/* Admin Routes */}
           {/* Categories CRUD */}
           <Route path='/categories/list' element={<CategoriesList />} />
           <Route path='/category/create' element={<CategoryCreate />} />

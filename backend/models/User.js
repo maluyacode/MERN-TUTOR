@@ -1,4 +1,8 @@
 const mongoose = require('mongoose');
+const validator = require('validator');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
 
 const userSchema = new mongoose.Schema({
 
@@ -17,7 +21,7 @@ const userSchema = new mongoose.Schema({
         required: true,
     },
 
-    profile: {
+    images: [{
         public_id: {
             type: String,
             required: true
@@ -26,7 +30,7 @@ const userSchema = new mongoose.Schema({
             type: String,
             required: true
         }
-    },
+    }],
 
     role: {
         type: String,
