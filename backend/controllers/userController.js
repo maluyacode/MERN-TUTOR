@@ -5,7 +5,8 @@ const upload = require('../utils/upload')
 exports.register = async (req, res, next) => {
     try {
 
-        req.body.images = await upload.multiple(req.files);
+        console.log(req.body);
+        req.body.images = await upload.multiplev2(req.files);
 
         const user = await User.create(req.body);
 
@@ -56,6 +57,21 @@ exports.login = async (req, res, next) => {
 
 exports.update = async (req, res, next) => {
     try {
+
+        const images = req.files;
+
+        req.body.images = await upload.multiplev2(req.files);
+
+        if (images.length === 0) {
+            delete req.body.images
+        }
+
+        const user = await User.findByIdAndUpdate(req.params.id, req.body);
+
+        return res.json({
+            message: "successfully updated!",
+            user: user,
+        })
 
     } catch (error) {
         console.log(error)

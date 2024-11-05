@@ -20,6 +20,7 @@
     "datatables.net-react": "^1.0.0",
     "datatables.net-responsive-dt": "^3.0.3",
     "datatables.net-select-dt": "^2.1.0",
+    "firebase": "^11.0.1",
     "formik": "^2.4.6",
     "mdb-react-ui-kit": "^9.0.0",
     "mdbreact": "^5.2.0",
