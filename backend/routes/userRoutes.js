@@ -8,4 +8,6 @@ router.post("/register", upload.array('images'), userController.register);
 
 router.post('/login', userController.login);
 
+router.put('/update/:id', upload.array('images'), userController.update);
+
 module.exports = router;

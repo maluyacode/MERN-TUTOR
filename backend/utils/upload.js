@@ -1,4 +1,5 @@
 const cloudinary = require('cloudinary');
+const firebase = require('./firebase')
 
 const multiple = async (files) => {
 
@@ -22,6 +23,38 @@ const multiple = async (files) => {
 
 }
 
+const multiplev2 = async (files) => {
+
+    let imagesData = [];
+
+    const bucket = firebase.storage().bucket();
+
+    for (let i = 0; i < files.length; i++) {
+
+
+        const uploadResponse = await bucket.upload(files[i].path, {
+            contentType: files[i].mimetype,
+        })
+
+        const file = uploadResponse[0];
+
+        const url = await file.getSignedUrl({
+            action: 'read',
+            expires: '03-17-2025'
+        })
+
+        imagesData.push({
+            public_id: file.name,
+            url: url[0],
+        })
+
+    };
+
+    return imagesData;
+
+}
+
 module.exports = {
     multiple,
+    multiplev2
 }

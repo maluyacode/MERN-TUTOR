@@ -23,6 +23,7 @@ import * as Yup from 'yup';
 
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
+import { baseUrl } from '../../assets/constants';
 
 export default function ProductCreate() {
 
@@ -75,7 +76,7 @@ export default function ProductCreate() {
     const getCategories = async () => {
         try {
 
-            const { data } = await axios.get('http://localhost:5000/category/get/all');
+            const { data } = await axios.get(`${baseUrl}/category/get/all`);
 
             setCategories(data.categories);
 
