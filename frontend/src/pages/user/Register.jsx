@@ -60,7 +60,7 @@ export default function Register() {
 
             const { data } = await axios.post(`${baseUrl}/user/register`, formData);
 
-            navigate('/products/list')
+            navigate('/login')
 
         } catch (err) {
             console.log(err);

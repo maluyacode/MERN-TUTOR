@@ -15,10 +15,13 @@ import { useFormik } from 'formik';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../utils/firebase';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setToken } from '../../state/authSlice';
 
 export default function Login() {
 
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const validationSchema = Yup.object().shape({
         email: Yup.string()
@@ -33,15 +36,16 @@ export default function Login() {
             .required('Password is required'),
     });
 
-
     const login = async (values) => {
         try {
 
-            console.log(values)
-            await signInWithEmailAndPassword(auth, values.email, values.password)
-            const user = auth.currentUser;
-            
-            navigate('/products/list');
+            const data = await signInWithEmailAndPassword(auth, values.email, values.password)
+
+            dispatch(
+                setToken(data.user.accessToken)
+            )
+
+            navigate('/');
 
         } catch (err) {
             console.log(err);

@@ -10,10 +10,12 @@ app.use(cors()); // to enable other origin to access our data, it's all yours mf
 const categoryRoutes = require('./routes/categoryRoutes');
 const productRoutes = require('./routes/productRoutes')
 const userRoutes = require('./routes/userRoutes')
+const orderRoutes = require('./routes/orderRoutes')
 
 // use routes
 app.use('/category', categoryRoutes)
 app.use('/product', productRoutes);
 app.use('/user', userRoutes)
+app.use('/order', orderRoutes)
 
 module.exports = app;

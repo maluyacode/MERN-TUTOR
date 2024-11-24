@@ -27,7 +27,7 @@ export default function AdminSideBar({ children }) {
                         <MenuItem onClick={() => navigate("/category/create")}> Create New </MenuItem>
                     </SubMenu>
 
-                    <MenuItem> Documentation </MenuItem>
+                    <MenuItem onClick={() => navigate("/orders")}> Orders </MenuItem>
                     <MenuItem
                         onClick={logout}
                     > Logout

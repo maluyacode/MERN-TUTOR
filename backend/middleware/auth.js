@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
+const admin = require('../utils/firebase')
 
 const isAuthenticated = async (req, res, next) => {
 
@@ -25,6 +26,32 @@ const isAuthenticated = async (req, res, next) => {
 
 }
 
+const isAuthenticatedV2 = async (req, res, next) => {
+
+    const token = req.headers.authorization.split(" ")[1]
+
+    if (!token) {
+        return res.status(401).json({ message: 'Login first to access this resource' })
+    }
+
+    try {
+        const decodedToken = await admin.auth().verifyIdToken(token);
+
+        const { email } = decodedToken;
+
+        req.user = await User.findOne({ email: email });
+
+        next();
+
+    } catch (error) {
+        res.status(401).json({ message: 'Invalid or expired token' });
+    }
+
+
+}
+
+
 module.exports = {
     isAuthenticated,
+    isAuthenticatedV2,
 }

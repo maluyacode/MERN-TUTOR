@@ -2,10 +2,33 @@ const User = require('../models/User');
 const { sendToken } = require('../utils/jwtToken');
 const upload = require('../utils/upload')
 
+
+exports.saveToken = async (req, res, next) => {
+    try {
+
+        const user = await User.findById(req.user._id);
+
+        user.notificatinToken = req.body.token;
+
+        user.save();
+
+        res.json({
+            message: "Notification token saved",
+        })
+
+    } catch (error) {
+        console.log(error)
+        res.json({
+            message: "System error occured!",
+            success: false
+        })
+    }
+}
+
 exports.register = async (req, res, next) => {
     try {
 
-        req.body.images = await upload.multiplev2(req.files);
+        req.body.images = await upload.multiple(req.files);
 
         const user = await User.create(req.body);
 
