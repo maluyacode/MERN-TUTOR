@@ -27,6 +27,8 @@ import { messaging } from './utils/firebase'
 import { baseUrl, VAPID_KEY } from './assets/constants'
 import { useSelector } from 'react-redux'
 import axios from 'axios'
+import Profile from './pages/user/Profile'
+import ProtectedRoute from './Auth/ProtectedRoute'
 
 function App() {
 
@@ -100,41 +102,47 @@ function App() {
 
           {/* User Routes */}
           <Route path='/register'
-            element={user ? <Navigate to={'/products/list'} /> : <Register />}
+            element={<Register />}
           />
 
           <Route path='/login'
-            element={user ? <Navigate to={'/products/list'} /> : <Login />}
+            element={<Login />}
           />
           <Route path='/' element={<Home />} />
           {/* <Route path='/cart' element={user ? <Cart /> : <Navigate to={'/login'} />} /> */}
           <Route path='/cart' element={<Cart />} />
 
+          <Route path='/profile' element={<Profile />} />
+
 
           {/* Admin Routes */}
           {/* Categories CRUD */}
           <Route path='/categories/list'
-            element={user ? <CategoriesList /> : <Navigate to={'/login'} />}
+            element={<CategoriesList />}
           />
           <Route path='/category/create'
-            element={user ? <CategoryCreate /> : <Navigate to={'/login'} />}
+            element={<CategoryCreate />}
           />
 
           {/* Products CRUD */}
           <Route path='/products/list'
-            element={user ? <ProductsList /> : <Navigate to={'/login'} />}
+            element={
+              <ProtectedRoute>
+                <ProductsList />
+              </ProtectedRoute>
+            }
           />
           <Route path='/product/create'
-            element={user ? <ProductCreate /> : <Navigate to={'/login'} />}
+            element={<ProductCreate />}
           />
           <Route path='/product/update/:id'
-            element={user ? <ProductUpdate /> : <Navigate to={'/login'} />}
+            element={<ProductUpdate />}
           />
 
           {/* Orders */}
 
           <Route path='/orders'
-            element={user ? <OrdersList /> : <Navigate to={'/login'} />}
+            element={<OrdersList />}
           />
 
         </Routes>

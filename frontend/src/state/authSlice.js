@@ -9,9 +9,12 @@ export const cartSlice = createSlice({
         setToken: (state, action) => {
             state.access_token = action.payload;
         },
+        setUser: (state, action) => {
+            state.user = action.payload;
+        }
     }
 })
 
-export const { setToken } = cartSlice.actions
+export const { setToken, setUser } = cartSlice.actions
 
 export default cartSlice.reducer

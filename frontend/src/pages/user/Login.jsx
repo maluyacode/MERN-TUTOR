@@ -16,7 +16,9 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../utils/firebase';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { setToken } from '../../state/authSlice';
+import { setToken, setUser } from '../../state/authSlice';
+import axios from 'axios';
+import { baseUrl } from '../../assets/constants';
 
 export default function Login() {
 
@@ -45,7 +47,23 @@ export default function Login() {
                 setToken(data.user.accessToken)
             )
 
-            navigate('/');
+            const response = await axios.post(`${baseUrl}/user/login`, {
+                email: values.email,
+                password: values.password
+            })
+
+            dispatch(
+                setUser(response.data.user)
+            )
+
+            console.log(response.data.user);
+
+            if (response.data.user.role === 'admin') {
+                navigate('/products/list')
+            } else {
+                navigate('/')
+            }
+
 
         } catch (err) {
             console.log(err);

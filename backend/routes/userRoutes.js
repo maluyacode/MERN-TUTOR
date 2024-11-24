@@ -13,4 +13,6 @@ router.put('/update/:id', upload.array('images'), userController.update);
 
 router.post('/token', isAuthenticatedV2, userController.saveToken);
 
+router.get('/profile', isAuthenticatedV2, userController.getSingle);
+
 module.exports = router;

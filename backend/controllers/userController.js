@@ -125,3 +125,22 @@ exports.resetPassword = async (req, res, next) => {
         })
     }
 }
+
+exports.getSingle = async (req, res, next) => {
+    try {
+
+        const user = await User.findById(req.user._id)
+
+        return res.json({
+            message: "successfully updated",
+            user: user,
+        })
+
+    } catch (error) {
+        console.log(error)
+        res.json({
+            message: "System error occured!",
+            success: false
+        })
+    }
+} 
